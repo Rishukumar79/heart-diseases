@@ -1,13 +1,17 @@
 ﻿import streamlit as st
 import numpy as np
 import joblib
+import os
 
-st.set_page_config(page_title="Heart Disease Predictor", page_icon="🫀")
+st.set_page_config(page_title="Heart Disease Predictor", page_icon="🫀", layout="centered")
 
-@st.cache_resource
+@st.cache_resource(show_spinner="Loading model...")
 def load_model():
-    model = joblib.load("models/best_model.pkl")
-    scaler = joblib.load("models/scaler.pkl")
+    base = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(base, "..", "models", "best_model.pkl")
+    scaler_path = os.path.join(base, "..", "models", "scaler.pkl")
+    model = joblib.load(model_path)
+    scaler = joblib.load(scaler_path)
     return model, scaler
 
 st.title("🫀 Heart Disease Risk Predictor")
@@ -41,24 +45,21 @@ with st.form("patient_form"):
     submitted = st.form_submit_button("🔍 Predict Risk", use_container_width=True)
 
 if submitted:
-    try:
-        model, scaler = load_model()
-        features = np.array([[age, sex, chest_pain_type, resting_bp,
-                               cholestoral, fasting_blood_sugar, restecg,
-                               max_hr, exang, oldpeak, slope,
-                               num_major_vessels, thal]])
-        pred = int(model.predict(scaler.transform(features))[0])
-        prob = float(model.predict_proba(scaler.transform(features))[0][1])
-        st.divider()
-        if pred == 1:
-            st.error(f"⚠️ High Risk — Probability: {prob:.1%}")
-            st.warning("Please consult a cardiologist.")
-        else:
-            st.success(f"✅ Low Risk — Probability: {prob:.1%}")
-            st.info("No significant risk detected.")
-        st.progress(prob)
-    except Exception as e:
-        st.error(f"Error: {e}")
+    model, scaler = load_model()
+    features = np.array([[age, sex, chest_pain_type, resting_bp,
+                           cholestoral, fasting_blood_sugar, restecg,
+                           max_hr, exang, oldpeak, slope,
+                           num_major_vessels, thal]])
+    pred = int(model.predict(scaler.transform(features))[0])
+    prob = float(model.predict_proba(scaler.transform(features))[0][1])
+    st.divider()
+    if pred == 1:
+        st.error(f"⚠️ High Risk — Probability: {prob:.1%}")
+        st.warning("Please consult a cardiologist.")
+    else:
+        st.success(f"✅ Low Risk — Probability: {prob:.1%}")
+        st.info("No significant risk detected.")
+    st.progress(prob)
 
 st.divider()
 st.caption("MLOps Portfolio Project | Heart Disease Prediction v1.0")
