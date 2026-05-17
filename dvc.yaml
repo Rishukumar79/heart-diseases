@@ -1,0 +1,38 @@
+stages:
+  # Stage 1: Data ingestion
+  ingest:
+    cmd: python -m src.data.ingest
+    deps:
+      - data/raw/heart.csv
+      - src/data/ingest.py
+    outs:
+      - data/raw/heart.csv:
+          cache: false  # Already tracked
+
+  # Stage 2: Preprocessing
+  preprocess:
+    cmd: python -m src.data.preprocess
+    deps:
+      - data/raw/heart.csv
+      - src/data/preprocess.py
+    outs:
+      - data/processed/X_train.npy
+      - data/processed/X_test.npy
+      - data/processed/y_train.npy
+      - data/processed/y_test.npy
+      - models/scaler.pkl
+
+  # Stage 3: Training
+  train:
+    cmd: python -m src.models.train
+    deps:
+      - data/processed/X_train.npy
+      - data/processed/X_test.npy
+      - data/processed/y_train.npy
+      - data/processed/y_test.npy
+      - src/models/train.py
+    outs:
+      - models/best_model.pkl
+    metrics:
+      - models/metrics.json:
+          cache: false
