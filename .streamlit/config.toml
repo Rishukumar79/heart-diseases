@@ -1,6 +1,5 @@
-﻿[server]
+[server]
 maxUploadSize = 10
-enableWebsocketCompression = true
 
 [browser]
 gatherUsageStats = false
