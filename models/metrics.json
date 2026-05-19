@@ -1,6 +1,5 @@
 {
   "accuracy": 0.8361,
   "f1_score": 0.8649,
-  "roc_auc": 0.9156,
-  "model_name": "RandomForest"
+  "roc_auc": 0.9156
 }
