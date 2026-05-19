@@ -267,17 +267,6 @@ pytest tests/ --cov=src --cov=app
 
 ---
 
-## 🔧 CI/CD Setup (GitHub Actions)
-
-Add these secrets in your GitHub repository settings:
-
-| Secret | Description |
-|---|---|
-| `DOCKER_USERNAME` | Your Docker Hub username |
-| `DOCKER_PASSWORD` | Your Docker Hub password |
-| `RENDER_DEPLOY_HOOK` | Render deploy hook URL |
-
----
 
 ## ☁️ Cloud Deployment (Render.com)
 
@@ -295,14 +284,5 @@ MIT License — Feel free to use for learning and portfolio purposes.
 
 ---
 
-## 👤 Author
-
-**Your Name**
-B.Tech, AI & Data Science — Delhi Technical Campus, Greater Noida
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/YOUR_PROFILE)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/YOUR_USERNAME)
-
----
 
 *⭐ If this helped you, give it a star on GitHub!*
